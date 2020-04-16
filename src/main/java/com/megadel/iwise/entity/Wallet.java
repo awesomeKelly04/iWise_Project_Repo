@@ -1,10 +1,11 @@
 package com.megadel.iwise.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "wallet")
-public class Wallet {
+public class Wallet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,9 @@ public class Wallet {
 
     @Column(name = "celo_dollar")
     private double celoDollar;
+
+    @OneToOne(mappedBy="wallet", cascade=CascadeType.ALL)
+    private User user;
 
     public Wallet() {
     }
@@ -59,6 +63,14 @@ public class Wallet {
 
     public void setCeloDollar(double celoDollar) {
         this.celoDollar = celoDollar;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

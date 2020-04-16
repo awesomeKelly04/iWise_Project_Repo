@@ -1,13 +1,14 @@
 package com.megadel.iwise.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "business")
-public class Business {
+public class Business implements Serializable           {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +30,7 @@ public class Business {
     @Column(name = "access_code")
     private String accessCode;
 
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name="user_has_business",
                 joinColumns = @JoinColumn(name = "business_id"),
                 inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -123,7 +123,6 @@ public class Business {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
-                ", users=" + users +
                 ", timestamp=" + timestamp +
                 '}';
     }
