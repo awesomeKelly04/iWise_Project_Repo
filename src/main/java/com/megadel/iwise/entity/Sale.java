@@ -1,6 +1,7 @@
 package com.megadel.iwise.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sales")
-public class Sale {
+public class Sale implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,31 +21,24 @@ public class Sale {
     @JoinColumn(name="business_id")
     private Business business;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinColumn(name="item_id")
-    private List<Item> items;
-
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
 
     @Column(name = "timestamp")
     private Timestamp timestamp;
 
+    @OneToMany(fetch=FetchType.LAZY,
+            mappedBy="sale",
+            cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Item> items;
+
     public Sale() {
     }
 
-    public Sale(List<Item> items, double totalAmountPerTimestamp) {
-        this.items = items;
+    public Sale(double totalAmountPerTimestamp) {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
         this.timestamp = new Timestamp(new Date().getTime());
-    }
-
-    public void add (Item tempItem){
-        if (items == null){
-            items = new ArrayList<>();
-        }
-
-        items.add(tempItem);
     }
 
     public int getId() {
@@ -63,14 +57,6 @@ public class Sale {
         this.business = business;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
     public double getTotalAmountPerTimestamp() {
         return totalAmountPerTimestamp;
     }
@@ -87,12 +73,32 @@ public class Sale {
         this.timestamp = timestamp;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    // add convenience methods for bi-directional relationship
+
+    public void add(Item tempItem) {
+
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+
+        items.add(tempItem);
+
+        tempItem.setSale(this);
+    }
+
     @Override
     public String toString() {
         return "Sale{" +
                 "id=" + id +
                 ", business=" + business +
-                ", items=" + items +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';

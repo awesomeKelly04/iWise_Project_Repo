@@ -1,13 +1,15 @@
 package com.megadel.iwise.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "business")
-public class Business {
+public class Business implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +31,14 @@ public class Business {
     @Column(name = "access_code")
     private String accessCode;
 
-    @ManyToMany(fetch=FetchType.LAZY,
+    @ManyToMany(mappedBy="businesses",
+            fetch = FetchType.LAZY,
             cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name="user_has_business",
-                joinColumns = @JoinColumn(name = "business_id"),
-                inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Date timestamp;
 
     public Business() {
     }
@@ -98,11 +99,11 @@ public class Business {
         this.users = users;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -114,6 +115,17 @@ public class Business {
         this.accessCode = accessCode;
     }
 
+    // add convenience methods for bi-directional relationship
+
+    public void add(User tempUser) {
+
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+
+        users.add(tempUser);
+    }
+
     @Override
     public String toString() {
         return "Business{" +
@@ -123,7 +135,6 @@ public class Business {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
-                ", users=" + users +
                 ", timestamp=" + timestamp +
                 '}';
     }

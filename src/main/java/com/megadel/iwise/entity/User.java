@@ -1,6 +1,7 @@
 package com.megadel.iwise.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +31,19 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name="user_business",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "business_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name="user_has_business",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"))
     private List<Business> businesses;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Date timestamp;
 
     public User() {
     }
@@ -119,12 +120,23 @@ public class User {
         this.businesses = businesses;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    // add convenience methods for bi-directional relationship
+
+    public void add(Business tempBusiness) {
+
+        if (businesses == null) {
+            businesses = new ArrayList<>();
+        }
+
+        businesses.add(tempBusiness);
     }
 
     @Override
@@ -137,7 +149,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", wallet=" + wallet +
-                ", businesses=" + businesses +
                 ", timestamp=" + timestamp +
                 '}';
     }

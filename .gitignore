@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
 # Created by https://www.gitignore.io/api/java,java-web,intellij,code-java,intellij+all
 # Edit at https://www.gitignore.io/?templates=java,java-web,intellij,code-java,intellij+all
@@ -187,6 +189,7 @@ target/
 
 # End of https://www.gitignore.io/api/java,java-web,intellij,code-java,intellij+all
 =======
+>>>>>>> 35874cb975530fd693c5f2363a427426c1a822b7
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -218,4 +221,7 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
 >>>>>>> iWise project setup
+>>>>>>> 35874cb975530fd693c5f2363a427426c1a822b7
