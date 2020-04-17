@@ -2,6 +2,7 @@ package com.megadel.iwise.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "wallet")
@@ -20,6 +21,10 @@ public class Wallet implements Serializable {
 
     @Column(name = "celo_dollar")
     private double celoDollar;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "timestamp")
+    private Date timestamp;
 
     @OneToOne(mappedBy="wallet", cascade=CascadeType.ALL)
     private User user;
@@ -65,6 +70,14 @@ public class Wallet implements Serializable {
         this.celoDollar = celoDollar;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public User getUser() {
         return user;
     }
@@ -80,6 +93,7 @@ public class Wallet implements Serializable {
                 ", point=" + point +
                 ", naira=" + naira +
                 ", celoDollar=" + celoDollar +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }
