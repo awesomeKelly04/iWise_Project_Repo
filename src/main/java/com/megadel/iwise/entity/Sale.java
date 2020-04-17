@@ -24,8 +24,9 @@ public class Sale implements Serializable {
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Date timestamp;
 
     @OneToMany(fetch=FetchType.LAZY,
             mappedBy="sale",
@@ -65,7 +66,7 @@ public class Sale implements Serializable {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
@@ -98,7 +99,6 @@ public class Sale implements Serializable {
     public String toString() {
         return "Sale{" +
                 "id=" + id +
-                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';

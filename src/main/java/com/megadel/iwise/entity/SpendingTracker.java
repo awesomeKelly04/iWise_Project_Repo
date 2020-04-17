@@ -23,8 +23,9 @@ public class SpendingTracker implements Serializable {
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Date timestamp;
 
     @OneToMany(fetch=FetchType.LAZY,
             mappedBy="spendingTracker",
@@ -64,7 +65,7 @@ public class SpendingTracker implements Serializable {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
@@ -97,7 +98,6 @@ public class SpendingTracker implements Serializable {
     public String toString() {
         return "SpendingTracker{" +
                 "id=" + id +
-                ", budgetPlan=" + budgetPlan +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';
