@@ -24,9 +24,8 @@ public class Expense implements Serializable {
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Date timestamp;
+    private Timestamp timestamp;
 
     @OneToMany(fetch=FetchType.LAZY,
             mappedBy="expense",
@@ -66,11 +65,11 @@ public class Expense implements Serializable {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
