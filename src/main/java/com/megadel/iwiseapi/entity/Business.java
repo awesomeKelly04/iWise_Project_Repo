@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "business")
-public class Business implements Serializable {
+public class Business {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +31,10 @@ public class Business implements Serializable {
     @Column(name = "access_code")
     private String accessCode;
 
-    @ManyToMany(mappedBy="businesses",
-            fetch = FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name="user_has_business",
+            joinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -91,6 +92,14 @@ public class Business implements Serializable {
         this.businessPhoneNumber = businessPhoneNumber;
     }
 
+    public String getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(String accessCode) {
+        this.accessCode = accessCode;
+    }
+
     public List<User> getUsers() {
         return users;
     }
@@ -105,14 +114,6 @@ public class Business implements Serializable {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public String getAccessCode() {
-        return accessCode;
-    }
-
-    public void setAccessCode(String accessCode) {
-        this.accessCode = accessCode;
     }
 
     // add convenience methods for bi-directional relationship
@@ -135,7 +136,6 @@ public class Business implements Serializable {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
-                ", users=" + users +
                 ", timestamp=" + timestamp +
                 '}';
     }

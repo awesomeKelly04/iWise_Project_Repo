@@ -2,11 +2,12 @@ package com.megadel.iwiseapi.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name = "wallet")
-public class Wallet implements Serializable {
+public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,6 @@ public class Wallet implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
     private Date timestamp;
-
     @OneToOne(mappedBy="wallet", cascade=CascadeType.ALL)
     private User user;
 

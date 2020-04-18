@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "item")
-public class Item implements Serializable {
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +70,14 @@ public class Item implements Serializable {
         this.name = name;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -84,14 +92,6 @@ public class Item implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
     }
 
     public BudgetPlan getBudgetPlan() {

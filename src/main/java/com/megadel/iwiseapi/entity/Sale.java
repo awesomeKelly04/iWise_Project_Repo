@@ -9,15 +9,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "sales")
-public class Sale implements Serializable {
+public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(fetch=FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="business_id")
     private Business business;
 
@@ -28,8 +27,7 @@ public class Sale implements Serializable {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="sale",
+    @OneToMany(mappedBy="sale",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;

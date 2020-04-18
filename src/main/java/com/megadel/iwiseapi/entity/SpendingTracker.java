@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "spending_tracker")
-public class SpendingTracker implements Serializable {
+public class SpendingTracker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,7 @@ public class SpendingTracker implements Serializable {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="spendingTracker",
+    @OneToMany(mappedBy="spendingTracker",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
@@ -69,7 +68,7 @@ public class SpendingTracker implements Serializable {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -80,8 +79,6 @@ public class SpendingTracker implements Serializable {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-
-    // add convenience methods for bi-directional relationship
 
     public void add(Item tempItem) {
 

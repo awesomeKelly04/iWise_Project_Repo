@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "budget_plan")
-public class BudgetPlan implements Serializable {
+public class BudgetPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,14 +30,13 @@ public class BudgetPlan implements Serializable {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="budgetPlan",
+    // fetch=FetchType.LAZY,
+    @OneToMany(mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
     
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="budgetPlan",
+    @OneToMany(mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<SpendingTracker> spendingTrackers;
@@ -87,7 +86,7 @@ public class BudgetPlan implements Serializable {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -98,19 +97,18 @@ public class BudgetPlan implements Serializable {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-    
-    
-    public List<SpendingTracker> getSpendingTrackers() {
-		return spendingTrackers;
-	}
 
-	public void setSpendingTrackers(List<SpendingTracker> spendingTrackers) {
-		this.spendingTrackers = spendingTrackers;
-	}
-    
+    public List<SpendingTracker> getSpendingTrackers() {
+        return spendingTrackers;
+    }
+
+    public void setSpendingTrackers(List<SpendingTracker> spendingTrackers) {
+        this.spendingTrackers = spendingTrackers;
+    }
+
     // add convenience methods for bi-directional relationship
-    
-	public void add(Item tempItem) {
+
+    public void addItem(Item tempItem) {
 
         if (items == null) {
             items = new ArrayList<>();
@@ -120,8 +118,8 @@ public class BudgetPlan implements Serializable {
 
         tempItem.setBudgetPlan(this);
     }
-    
-    public void add(SpendingTracker tempSpendingTracker) {
+
+    public void addSpending(SpendingTracker tempSpendingTracker) {
 
         if (spendingTrackers == null) {
             spendingTrackers = new ArrayList<>();
@@ -136,7 +134,7 @@ public class BudgetPlan implements Serializable {
     public String toString() {
         return "BudgetPlan{" +
                 "id=" + id +
-                ", period=" + period +
+                ", period='" + period + '\'' +
                 ", budgetAmount=" + budgetAmount +
                 ", timestamp=" + timestamp +
                 '}';
