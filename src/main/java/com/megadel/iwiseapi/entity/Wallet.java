@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "wallet")
-public class Wallet implements Serializable {
+public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,7 +94,6 @@ public class Wallet implements Serializable {
                 ", naira=" + naira +
                 ", celoDollar=" + celoDollar +
                 ", timestamp=" + timestamp +
-                ", user=" + user +
                 '}';
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "budget_plan")
-public class BudgetPlan implements Serializable {
+public class BudgetPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,7 +110,7 @@ public class BudgetPlan implements Serializable {
     
     // add convenience methods for bi-directional relationship
     
-	public void add(Item tempItem) {
+	public void addItem(Item tempItem) {
 
         if (items == null) {
             items = new ArrayList<>();
@@ -121,7 +121,7 @@ public class BudgetPlan implements Serializable {
         tempItem.setBudgetPlan(this);
     }
     
-    public void add(SpendingTracker tempSpendingTracker) {
+    public void addSpending(SpendingTracker tempSpendingTracker) {
 
         if (spendingTrackers == null) {
             spendingTrackers = new ArrayList<>();
@@ -140,8 +140,6 @@ public class BudgetPlan implements Serializable {
                 ", budgetAmount=" + budgetAmount +
                 ", user=" + user +
                 ", timestamp=" + timestamp +
-                ", items=" + items +
-                ", spendingTrackers=" + spendingTrackers +
                 '}';
     }
 }

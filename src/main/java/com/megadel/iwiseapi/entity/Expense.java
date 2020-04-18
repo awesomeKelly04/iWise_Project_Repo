@@ -9,15 +9,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "expenses")
-public class Expense implements Serializable {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(fetch=FetchType.LAZY,
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="business_id")
     private Business business;
 
@@ -28,8 +27,7 @@ public class Expense implements Serializable {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="expense",
+    @OneToMany(mappedBy="expense",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
@@ -84,7 +82,7 @@ public class Expense implements Serializable {
 
     // add convenience methods for bi-directional relationship
 
-    public void add(Item tempItem) {
+    public void addItem(Item tempItem) {
 
         if (items == null) {
             items = new ArrayList<>();
@@ -102,7 +100,6 @@ public class Expense implements Serializable {
                 ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
-                ", items=" + items +
                 '}';
     }
 }

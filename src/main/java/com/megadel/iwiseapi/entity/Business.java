@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "business")
-public class Business implements Serializable {
+public class Business {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,6 @@ public class Business implements Serializable {
     private String accessCode;
 
     @ManyToMany(mappedBy="businesses",
-            fetch = FetchType.LAZY,
             cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<User> users;
 
@@ -135,7 +134,6 @@ public class Business implements Serializable {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
-                ", users=" + users +
                 ", timestamp=" + timestamp +
                 '}';
     }

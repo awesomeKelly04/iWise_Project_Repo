@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "spending_tracker")
-public class SpendingTracker implements Serializable {
+public class SpendingTracker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,7 @@ public class SpendingTracker implements Serializable {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="spendingTracker",
+    @OneToMany(mappedBy="spendingTracker",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
@@ -101,7 +100,6 @@ public class SpendingTracker implements Serializable {
                 ", budgetPlan=" + budgetPlan +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
-                ", items=" + items +
                 '}';
     }
 }

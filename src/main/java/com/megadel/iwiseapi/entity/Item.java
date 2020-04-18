@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "item")
-public class Item implements Serializable {
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,11 +142,6 @@ public class Item implements Serializable {
                 ", quantity=" + quantity +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
-                ", budgetPlan=" + budgetPlan +
-                ", sale=" + sale +
-                ", expense=" + expense +
-                ", purchase=" + purchase +
-                ", spendingTracker=" + spendingTracker +
                 '}';
     }
 }
