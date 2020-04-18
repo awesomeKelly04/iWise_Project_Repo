@@ -148,6 +148,8 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", wallet=" + wallet +
+                ", businesses=" + businesses +
                 ", timestamp=" + timestamp +
                 '}';
     }

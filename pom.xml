@@ -11,7 +11,7 @@
     <groupId>com.megadel</groupId>
     <artifactId>iwise-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>iwise-api</name>
+    <name>iWise-api</name>
     <description>A budgeting app</description>
 
     <properties>
