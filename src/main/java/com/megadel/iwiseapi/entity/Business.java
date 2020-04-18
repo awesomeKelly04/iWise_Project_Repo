@@ -31,8 +31,10 @@ public class Business {
     @Column(name = "access_code")
     private String accessCode;
 
-    @ManyToMany(mappedBy="businesses",
-            cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name="user_has_business",
+            joinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users;
 
     @Temporal(TemporalType.TIMESTAMP)
