@@ -135,6 +135,7 @@ public class Business implements Serializable {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
+                ", users=" + users +
                 ", timestamp=" + timestamp +
                 '}';
     }
