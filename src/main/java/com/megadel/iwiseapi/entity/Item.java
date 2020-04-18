@@ -142,6 +142,11 @@ public class Item implements Serializable {
                 ", quantity=" + quantity +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
+                ", budgetPlan=" + budgetPlan +
+                ", sale=" + sale +
+                ", expense=" + expense +
+                ", purchase=" + purchase +
+                ", spendingTracker=" + spendingTracker +
                 '}';
     }
 }

@@ -99,8 +99,10 @@ public class Expense implements Serializable {
     public String toString() {
         return "Expense{" +
                 "id=" + id +
+                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
+                ", items=" + items +
                 '}';
     }
 }

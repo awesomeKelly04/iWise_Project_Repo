@@ -98,8 +98,10 @@ public class SpendingTracker implements Serializable {
     public String toString() {
         return "SpendingTracker{" +
                 "id=" + id +
+                ", budgetPlan=" + budgetPlan +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
+                ", items=" + items +
                 '}';
     }
 }

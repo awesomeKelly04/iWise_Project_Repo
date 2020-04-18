@@ -99,8 +99,10 @@ public class Purchase implements Serializable {
     public String toString() {
         return "Purchase{" +
                 "id=" + id +
+                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
+                ", items=" + items +
                 '}';
     }
 }

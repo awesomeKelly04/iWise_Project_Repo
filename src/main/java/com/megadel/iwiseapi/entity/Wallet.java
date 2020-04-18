@@ -94,6 +94,7 @@ public class Wallet implements Serializable {
                 ", naira=" + naira +
                 ", celoDollar=" + celoDollar +
                 ", timestamp=" + timestamp +
+                ", user=" + user +
                 '}';
     }
 }

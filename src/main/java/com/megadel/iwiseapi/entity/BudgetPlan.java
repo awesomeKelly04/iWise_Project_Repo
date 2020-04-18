@@ -136,9 +136,12 @@ public class BudgetPlan implements Serializable {
     public String toString() {
         return "BudgetPlan{" +
                 "id=" + id +
-                ", period=" + period +
+                ", period='" + period + '\'' +
                 ", budgetAmount=" + budgetAmount +
+                ", user=" + user +
                 ", timestamp=" + timestamp +
+                ", items=" + items +
+                ", spendingTrackers=" + spendingTrackers +
                 '}';
     }
 }
