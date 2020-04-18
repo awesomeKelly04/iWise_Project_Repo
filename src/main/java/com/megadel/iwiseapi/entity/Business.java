@@ -90,6 +90,14 @@ public class Business {
         this.businessPhoneNumber = businessPhoneNumber;
     }
 
+    public String getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(String accessCode) {
+        this.accessCode = accessCode;
+    }
+
     public List<User> getUsers() {
         return users;
     }
@@ -104,14 +112,6 @@ public class Business {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public String getAccessCode() {
-        return accessCode;
-    }
-
-    public void setAccessCode(String accessCode) {
-        this.accessCode = accessCode;
     }
 
     // add convenience methods for bi-directional relationship

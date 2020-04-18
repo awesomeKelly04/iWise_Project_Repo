@@ -2,6 +2,7 @@ package com.megadel.iwiseapi.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -25,7 +26,6 @@ public class Wallet {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
     private Date timestamp;
-
     @OneToOne(mappedBy="wallet", cascade=CascadeType.ALL)
     private User user;
 

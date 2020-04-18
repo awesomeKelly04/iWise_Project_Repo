@@ -30,14 +30,13 @@ public class BudgetPlan {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="budgetPlan",
+    // fetch=FetchType.LAZY,
+    @OneToMany(mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
     
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="budgetPlan",
+    @OneToMany(mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<SpendingTracker> spendingTrackers;
@@ -87,7 +86,7 @@ public class BudgetPlan {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -98,19 +97,18 @@ public class BudgetPlan {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-    
-    
-    public List<SpendingTracker> getSpendingTrackers() {
-		return spendingTrackers;
-	}
 
-	public void setSpendingTrackers(List<SpendingTracker> spendingTrackers) {
-		this.spendingTrackers = spendingTrackers;
-	}
-    
+    public List<SpendingTracker> getSpendingTrackers() {
+        return spendingTrackers;
+    }
+
+    public void setSpendingTrackers(List<SpendingTracker> spendingTrackers) {
+        this.spendingTrackers = spendingTrackers;
+    }
+
     // add convenience methods for bi-directional relationship
-    
-	public void addItem(Item tempItem) {
+
+    public void addItem(Item tempItem) {
 
         if (items == null) {
             items = new ArrayList<>();
@@ -120,7 +118,7 @@ public class BudgetPlan {
 
         tempItem.setBudgetPlan(this);
     }
-    
+
     public void addSpending(SpendingTracker tempSpendingTracker) {
 
         if (spendingTrackers == null) {
@@ -138,7 +136,6 @@ public class BudgetPlan {
                 "id=" + id +
                 ", period='" + period + '\'' +
                 ", budgetAmount=" + budgetAmount +
-                ", user=" + user +
                 ", timestamp=" + timestamp +
                 '}';
     }

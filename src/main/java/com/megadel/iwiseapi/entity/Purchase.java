@@ -68,7 +68,7 @@ public class Purchase {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -79,8 +79,6 @@ public class Purchase {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-
-    // add convenience methods for bi-directional relationship
 
     public void addItem(Item tempItem) {
 
@@ -97,7 +95,6 @@ public class Purchase {
     public String toString() {
         return "Purchase{" +
                 "id=" + id +
-                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';

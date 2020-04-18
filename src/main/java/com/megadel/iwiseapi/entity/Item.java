@@ -70,6 +70,14 @@ public class Item {
         this.name = name;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -84,14 +92,6 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
     }
 
     public BudgetPlan getBudgetPlan() {

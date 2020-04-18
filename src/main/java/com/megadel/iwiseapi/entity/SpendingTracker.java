@@ -68,7 +68,7 @@ public class SpendingTracker {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -79,8 +79,6 @@ public class SpendingTracker {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-
-    // add convenience methods for bi-directional relationship
 
     public void add(Item tempItem) {
 
@@ -97,7 +95,6 @@ public class SpendingTracker {
     public String toString() {
         return "SpendingTracker{" +
                 "id=" + id +
-                ", budgetPlan=" + budgetPlan +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';

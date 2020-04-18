@@ -97,7 +97,6 @@ public class Sale {
     public String toString() {
         return "Sale{" +
                 "id=" + id +
-                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';

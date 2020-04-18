@@ -97,7 +97,6 @@ public class Expense {
     public String toString() {
         return "Expense{" +
                 "id=" + id +
-                ", business=" + business +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
                 ", timestamp=" + timestamp +
                 '}';
