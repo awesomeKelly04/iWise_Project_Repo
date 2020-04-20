@@ -16,7 +16,7 @@ public class Purchase {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="business_id")
     private Business business;
 
@@ -27,7 +27,7 @@ public class Purchase {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(mappedBy="purchase",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="purchase",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;

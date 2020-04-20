@@ -22,7 +22,7 @@ public class BudgetPlan {
     @Column(name = "budget_amount")
     private double budgetAmount;
 
-    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="user_id")
     private User user;
 
@@ -30,13 +30,12 @@ public class BudgetPlan {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    // fetch=FetchType.LAZY,
-    @OneToMany(mappedBy="budgetPlan",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;
     
-    @OneToMany(mappedBy="budgetPlan",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<SpendingTracker> spendingTrackers;

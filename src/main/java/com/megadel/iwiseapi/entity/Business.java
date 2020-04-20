@@ -28,10 +28,10 @@ public class Business {
     @Column(name = "business_phone_number")
     private String businessPhoneNumber;
 
-    @Column(name = "access_code")
+    @Column(name = "access_code", nullable = false)
     private String accessCode;
 
-    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name="user_has_business",
             joinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))

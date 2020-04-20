@@ -31,11 +31,11 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
-    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name="user_has_business",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"))

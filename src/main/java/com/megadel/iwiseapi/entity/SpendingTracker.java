@@ -16,7 +16,7 @@ public class SpendingTracker {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="budget_plan_id")
     private BudgetPlan budgetPlan;
 
@@ -27,7 +27,7 @@ public class SpendingTracker {
     @Column(name = "timestamp")
     private Date timestamp;
 
-    @OneToMany(mappedBy="spendingTracker",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="spendingTracker",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<Item> items;

@@ -26,7 +26,8 @@ public class Wallet {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
     private Date timestamp;
-    @OneToOne(mappedBy="wallet", cascade=CascadeType.ALL)
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy="wallet", cascade=CascadeType.ALL)
     private User user;
 
     public Wallet() {
