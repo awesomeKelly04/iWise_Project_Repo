@@ -1,14 +1,13 @@
 package com.megadel.iwiseapi.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "budget_plan")
+@Table(name = "budget_plans")
 public class BudgetPlan {
 
     @Id
@@ -23,8 +22,8 @@ public class BudgetPlan {
     private double budgetAmount;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="user_id")
-    private User user;
+    @JoinColumn(name="person_id")
+    private Person person;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
@@ -73,12 +72,12 @@ public class BudgetPlan {
         this.budgetAmount = budgetAmount;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Date getTimestamp() {

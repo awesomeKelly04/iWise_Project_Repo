@@ -1,12 +1,10 @@
 package com.megadel.iwiseapi.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "wallets")
 public class Wallet {
 
     @Id
@@ -28,7 +26,7 @@ public class Wallet {
     private Date timestamp;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy="wallet", cascade=CascadeType.ALL)
-    private User user;
+    private Person person;
 
     public Wallet() {
     }
@@ -79,12 +77,12 @@ public class Wallet {
         this.timestamp = timestamp;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

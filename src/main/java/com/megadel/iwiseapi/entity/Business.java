@@ -1,14 +1,13 @@
 package com.megadel.iwiseapi.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "business")
+@Table(name = "businesses")
 public class Business {
 
     @Id
@@ -32,10 +31,10 @@ public class Business {
     private String accessCode;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name="user_has_business",
+    @JoinTable(name="people_has_businesses",
             joinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    private List<User> users;
+            inverseJoinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"))
+    private List<Person> people;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
@@ -100,12 +99,12 @@ public class Business {
         this.accessCode = accessCode;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getPeople() {
+        return people;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setPeople(List<Person> people) {
+        this.people = people;
     }
 
     public Date getTimestamp() {
@@ -118,13 +117,13 @@ public class Business {
 
     // add convenience methods for bi-directional relationship
 
-    public void add(User tempUser) {
+    public void add(Person tempPerson) {
 
-        if (users == null) {
-            users = new ArrayList<>();
+        if (people == null) {
+            people = new ArrayList<>();
         }
 
-        users.add(tempUser);
+        people.add(tempPerson);
     }
 
     @Override
