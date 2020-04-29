@@ -1,5 +1,8 @@
 package com.megadel.iwiseapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.megadel.iwiseapi.entity.audit.DateAudit;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "businesses")
-public class Business {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Business extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +35,14 @@ public class Business {
     private String accessCode;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name="people_has_businesses",
+    @JoinTable(name="users_has_businesses",
             joinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"))
-    private List<Person> people;
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private List<User> users;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "timestamp")
-    private Date timestamp;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "timestamp")
+//    private Date timestamp;
 
     public Business() {
     }
@@ -48,7 +52,7 @@ public class Business {
         this.businessAddress = businessAddress;
         this.businessEmail = businessEmail;
         this.businessPhoneNumber = businessPhoneNumber;
-        this.timestamp = new Timestamp(new Date().getTime());
+//        this.timestamp = new Timestamp(new Date().getTime());
     }
 
     public int getId() {
@@ -99,31 +103,31 @@ public class Business {
         this.accessCode = accessCode;
     }
 
-    public List<Person> getPeople() {
-        return people;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setPeople(List<Person> people) {
-        this.people = people;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+    //    public Date getTimestamp() {
+//        return timestamp;
+//    }
+//
+//    public void setTimestamp(Date timestamp) {
+//        this.timestamp = timestamp;
+//    }
 
     // add convenience methods for bi-directional relationship
 
-    public void add(Person tempPerson) {
+    public void add(User tempPerson) {
 
-        if (people == null) {
-            people = new ArrayList<>();
+        if (users == null) {
+            users = new ArrayList<>();
         }
 
-        people.add(tempPerson);
+        users.add(tempPerson);
     }
 
     @Override
@@ -135,7 +139,6 @@ public class Business {
                 ", businessEmail='" + businessEmail + '\'' +
                 ", businessPhoneNumber='" + businessPhoneNumber + '\'' +
                 ", accessCode='" + accessCode + '\'' +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }

@@ -1,5 +1,8 @@
 package com.megadel.iwiseapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.megadel.iwiseapi.entity.audit.DateAudit;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,7 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "purchases")
-public class Purchase {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Purchase extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +27,6 @@ public class Purchase {
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "timestamp")
-    private Date timestamp;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy="purchase",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
@@ -37,7 +37,6 @@ public class Purchase {
 
     public Purchase(double totalAmountPerTimestamp) {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
-        this.timestamp = new Timestamp(new Date().getTime());
     }
 
     public int getId() {
@@ -64,14 +63,6 @@ public class Purchase {
         this.totalAmountPerTimestamp = totalAmountPerTimestamp;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public List<Item> getItems() {
         return items;
     }
@@ -96,7 +87,6 @@ public class Purchase {
         return "Purchase{" +
                 "id=" + id +
                 ", totalAmountPerTimestamp=" + totalAmountPerTimestamp +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }

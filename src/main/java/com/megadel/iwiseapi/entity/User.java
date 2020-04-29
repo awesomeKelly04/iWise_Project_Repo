@@ -1,5 +1,6 @@
 package com.megadel.iwiseapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.iwiseapi.entity.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,37 +20,55 @@ import java.util.Set;
                 "email"
         })
 })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
     @Size(max = 40)
+    @Column(name = "name")
     private String name;
 
     @NotBlank
     @Size(max = 15)
+    @Column(name = "username")
     private String username;
 
     @NaturalId
     @NotBlank
     @Size(max = 40)
     @Email
+    @Column(name = "email")
     private String email;
 
     @NotBlank
     @Size(max = 100)
+    @Column(name = "password")
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles",
+    @JoinTable(name = "users_has_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name="users_has_businesses",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"))
+    private List<Business> businesses;
+
+    public User() {
     }
 
     public User(String name, String username, String email, String password) {
@@ -56,6 +76,14 @@ public class User extends DateAudit {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String name, String username, String email, String password, String phoneNumber) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
@@ -104,5 +132,41 @@ public class User extends DateAudit {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public List<Business> getBusinesses() {
+        return businesses;
+    }
+
+    public void setBusinesses(List<Business> businesses) {
+        this.businesses = businesses;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

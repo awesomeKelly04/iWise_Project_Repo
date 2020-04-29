@@ -1,5 +1,8 @@
 package com.megadel.iwiseapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.megadel.iwiseapi.entity.audit.DateAudit;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "budget_plans")
-public class BudgetPlan {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class BudgetPlan extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +26,8 @@ public class BudgetPlan {
     private double budgetAmount;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="person_id")
-    private Person person;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "timestamp")
-    private Date timestamp;
+    @JoinColumn(name="user_id")
+    private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="budgetPlan",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE,
@@ -45,7 +45,6 @@ public class BudgetPlan {
     public BudgetPlan(String period, double budgetAmount) {
         this.period = period;
         this.budgetAmount = budgetAmount;
-        this.timestamp = new Timestamp(new Date().getTime());
     }
 
     public int getId() {
@@ -72,20 +71,12 @@ public class BudgetPlan {
         this.budgetAmount = budgetAmount;
     }
 
-    public Person getPerson() {
-        return person;
+    public User getPerson() {
+        return user;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setPerson(User user) {
+        this.user = user;
     }
 
     public List<Item> getItems() {
@@ -134,7 +125,6 @@ public class BudgetPlan {
                 "id=" + id +
                 ", period='" + period + '\'' +
                 ", budgetAmount=" + budgetAmount +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }

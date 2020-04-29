@@ -1,11 +1,16 @@
 package com.megadel.iwiseapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.megadel.iwiseapi.entity.audit.DateAudit;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "wallets")
-public class Wallet {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Wallet extends DateAudit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +26,8 @@ public class Wallet {
     @Column(name = "celo_dollar")
     private double celoDollar;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "timestamp")
-    private Date timestamp;
-
     @OneToOne(fetch = FetchType.LAZY, mappedBy="wallet", cascade=CascadeType.ALL)
-    private Person person;
+    private User user;
 
     public Wallet() {
     }
@@ -69,20 +70,21 @@ public class Wallet {
         this.celoDollar = celoDollar;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+//    public Date getTimestamp() {
+//        return timestamp;
+//    }
+//
+//    public void setTimestamp(Date timestamp) {
+//        this.timestamp = timestamp;
+//    }
+
+
+    public User getUser() {
+        return user;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -92,7 +94,6 @@ public class Wallet {
                 ", point=" + point +
                 ", naira=" + naira +
                 ", celoDollar=" + celoDollar +
-                ", timestamp=" + timestamp +
                 '}';
     }
 }
