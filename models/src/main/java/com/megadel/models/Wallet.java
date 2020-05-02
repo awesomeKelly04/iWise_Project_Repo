@@ -69,15 +69,6 @@ public class Wallet extends DateAudit implements Serializable {
         this.celoDollar = celoDollar;
     }
 
-//    public Date getTimestamp() {
-//        return timestamp;
-//    }
-//
-//    public void setTimestamp(Date timestamp) {
-//        this.timestamp = timestamp;
-//    }
-
-
     public User getUser() {
         return user;
     }

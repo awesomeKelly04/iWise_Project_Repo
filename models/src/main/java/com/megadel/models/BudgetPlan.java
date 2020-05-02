@@ -2,6 +2,8 @@ package com.megadel.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.models.audit.DateAudit;
+import com.megadel.models.projectenum.Period;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,9 +19,10 @@ public class BudgetPlan extends DateAudit {
     @Column(name = "id")
     private int id;
 
-
-    @Column(name = "period")
-    private String period;
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(name = "period", length = 60)
+    private Period period;
 
     @Column(name = "budget_amount")
     private double budgetAmount;
@@ -41,7 +44,7 @@ public class BudgetPlan extends DateAudit {
     public BudgetPlan() {
     }
 
-    public BudgetPlan(String period, double budgetAmount) {
+    public BudgetPlan(Period period, double budgetAmount) {
         this.period = period;
         this.budgetAmount = budgetAmount;
     }
@@ -54,11 +57,11 @@ public class BudgetPlan extends DateAudit {
         this.id = id;
     }
 
-    public String getPeriod() {
+    public Period getPeriod() {
         return period;
     }
 
-    public void setPeriod(String period) {
+    public void setPeriod(Period period) {
         this.period = period;
     }
 
