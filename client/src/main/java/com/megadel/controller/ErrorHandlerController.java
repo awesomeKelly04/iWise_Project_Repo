@@ -15,7 +15,7 @@
 //        return "<center>" +
 //                "<h1>Something went wrong</h1>" +
 //                "<hr><br>" +
-//                "<div><h5>Go to <a href='https://iwise-api.herokuapp.com/iwise-api/'>iWise API</a> home page<h5>" +
+//                "<div><h5>Go to <a href='/'>iWise API</a> home page<h5>" +
 //                "</div>" +
 //                "</center>";
 //    }
