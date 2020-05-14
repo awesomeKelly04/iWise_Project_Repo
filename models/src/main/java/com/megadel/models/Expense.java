@@ -18,8 +18,8 @@ public class Expense extends DateAudit {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="business_id")
-    private Business business;
+    @JoinColumn(name="budget_id")
+    private BudgetPlan budgetPlan;
 
     @Column(name = "total_amount")
     private double totalAmountPerTimestamp;
@@ -44,12 +44,12 @@ public class Expense extends DateAudit {
         this.id = id;
     }
 
-    public Business getBusiness() {
-        return business;
+    public BudgetPlan getBudgetPlan() {
+        return budgetPlan;
     }
 
-    public void setBusiness(Business business) {
-        this.business = business;
+    public void setBudgetPlan(BudgetPlan budgetPlan) {
+        this.budgetPlan = budgetPlan;
     }
 
     public double getTotalAmountPerTimestamp() {

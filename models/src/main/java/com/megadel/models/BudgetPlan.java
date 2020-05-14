@@ -41,6 +41,10 @@ public class BudgetPlan extends DateAudit {
                     CascadeType.DETACH, CascadeType.REFRESH})
     private List<SpendingTracker> spendingTrackers;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="business_id")
+    private Business business;
+
     public BudgetPlan() {
     }
 
@@ -95,6 +99,22 @@ public class BudgetPlan extends DateAudit {
 
     public void setSpendingTrackers(List<SpendingTracker> spendingTrackers) {
         this.spendingTrackers = spendingTrackers;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
     }
 
     // add convenience methods for bi-directional relationship
