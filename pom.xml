@@ -11,6 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
+<<<<<<< HEAD
         <version>2.2.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
@@ -18,12 +19,25 @@
     <artifactId>iwise</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>iwise</name>
+=======
+        <version>2.2.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.megadel</groupId>
+    <artifactId>iwise-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>iWise-api</name>
+>>>>>>> 19a52ef70efeb320b53bfab759f0d6d013c694d8
     <description>A budgeting app</description>
 
     <packaging>pom</packaging>
 
     <properties>
+<<<<<<< HEAD
         <java.version>1.8</java.version>
+=======
+        <java.version>14</java.version>
+>>>>>>> 19a52ef70efeb320b53bfab759f0d6d013c694d8
     </properties>
 
     <dependencies>
@@ -94,4 +108,9 @@
 
     </dependencies>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 19a52ef70efeb320b53bfab759f0d6d013c694d8
 </project>
