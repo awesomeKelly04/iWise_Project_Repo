@@ -93,6 +93,7 @@ public class AuthController {
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, user.getUsername() + " registered successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true,
+                result.getUsername() + " with an id of " + result.getId() + " registered successfully"));
     }
 }
