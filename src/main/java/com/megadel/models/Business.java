@@ -38,12 +38,6 @@ public class Business extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users;
 
-
-
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "timestamp")
-//    private Date timestamp;
-
     public Business() {
     }
 

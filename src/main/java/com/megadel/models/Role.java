@@ -1,11 +1,13 @@
 package com.megadel.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.models.projectenum.RoleName;
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

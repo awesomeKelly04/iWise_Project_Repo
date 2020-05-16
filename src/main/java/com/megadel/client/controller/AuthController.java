@@ -94,6 +94,6 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true,
-                result.getUsername() + " with an id of " + result.getId() + " registered successfully"));
+                result.toString() + " registered successfully"));
     }
 }
