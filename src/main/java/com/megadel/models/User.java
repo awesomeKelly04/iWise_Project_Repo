@@ -1,5 +1,6 @@
 package com.megadel.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.models.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,6 +158,26 @@ public class User extends DateAudit {
 
     public void setBusinesses(List<Business> businesses) {
         this.businesses = businesses;
+    }
+
+    // add convenience methods for bi-directional relationship
+
+    public void addBus(Business tempBusiness) {
+
+        if (businesses == null) {
+            businesses = new ArrayList<>();
+        }
+
+        businesses.add(tempBusiness);
+    }
+
+    public void addRole(Role tempRole) {
+
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+
+        roles.add(tempRole);
     }
 
     @Override

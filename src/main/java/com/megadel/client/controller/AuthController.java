@@ -33,20 +33,28 @@ import java.util.Collections;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
+    final
     AuthenticationManager authenticationManager;
 
-    @Autowired
+    final
     UserRepository userRepository;
 
-    @Autowired
+    final
     RoleRepository roleRepository;
 
-    @Autowired
+    final
     PasswordEncoder passwordEncoder;
 
-    @Autowired
+    final
     JwtTokenProvider tokenProvider;
+
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -94,6 +102,6 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true,
-                result.toString() + " registered successfully"));
+                result.getUsername() + " account registered successfully"));
     }
 }
