@@ -3,8 +3,8 @@ package com.megadel.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.models.projectenum.RoleName;
 import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Entity
 @Table(name = "roles")
