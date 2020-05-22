@@ -3,11 +3,12 @@ package com.megadel.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "items")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Item {
+public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

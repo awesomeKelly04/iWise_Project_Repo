@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.megadel.models.audit.DateAudit;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "purchases")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Purchase extends DateAudit {
+public class Purchase extends DateAudit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

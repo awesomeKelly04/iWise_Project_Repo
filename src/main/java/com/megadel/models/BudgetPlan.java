@@ -6,13 +6,14 @@ import com.megadel.models.projectenum.Period;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "budget_plans")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class BudgetPlan extends DateAudit {
+public class BudgetPlan extends DateAudit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
