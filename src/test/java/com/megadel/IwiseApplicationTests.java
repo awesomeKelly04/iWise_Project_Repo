@@ -104,7 +104,13 @@ class IwiseApplicationTests {
     @Test
     public void logInTest() throws Exception{
         user = userRepository.findById((long) 1);
-        loginRequest.setUsernameOrEmail(user.get().getEmail());
+        User tempUser = null;
+        try {
+            tempUser = user.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        loginRequest.setUsernameOrEmail(tempUser.getEmail());
         loginRequest.setPassword("Nigeria");
         String userJson = asJsonString(loginRequest);
         System.out.println(userJson);
@@ -131,23 +137,30 @@ class IwiseApplicationTests {
     @Test
     public void getASingleUserTest() throws Exception{
         user = userRepository.findById((long) 1);
+        User tempUser = null;
+        try {
+            tempUser = user.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mockMvc.perform(get("/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(user.get().getUsername()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(tempUser.getUsername()))
                 .andDo(getDocument());
     }
 
     @Test
     public void updateAUserTest() throws Exception{
         user = userRepository.findById((long) 1);
-        User tempUser = new User();
+        User tempUser = null;
+        try {
+            tempUser = user.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tempUser.setPhoneNumber("08125999453");
-        tempUser.setPassword(user.get().getPassword());
-        tempUser.setEmail(user.get().getEmail());
-        tempUser.setName(user.get().getName());
-        tempUser.setUsername(user.get().getUsername());
         mockMvc.perform(put("/users/1")
                 .content(asJsonString(tempUser))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -161,7 +174,7 @@ class IwiseApplicationTests {
         userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
         System.out.println(Collections.singleton(userRole));
-        mockMvc.perform(patch("/users/1")
+        mockMvc.perform(patch("/users/51")
                 .contentType("application/json-patch+hal+json")
                 .content(asJsonString(userRole))
                 .accept("application/json-patch+json")).andDo(print())

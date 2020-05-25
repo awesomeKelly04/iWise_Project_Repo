@@ -71,6 +71,13 @@ public class User extends DateAudit implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "business_id", referencedColumnName = "id"))
     private List<Business> businesses;
 
+    @Column(name = "state")
+    private Boolean isActive;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
+
+
     public User() {
     }
 
@@ -161,6 +168,22 @@ public class User extends DateAudit implements Serializable {
         this.businesses = businesses;
     }
 
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean active) {
+        isActive = active;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
     // add convenience methods for bi-directional relationship
 
     public void addBus(Business tempBusiness) {
@@ -190,6 +213,7 @@ public class User extends DateAudit implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", isActive=" + isActive +
                 '}';
     }
 }
