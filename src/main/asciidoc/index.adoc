@@ -1,0 +1,51 @@
+= iWise API Documentation
+
+This is an example output for a service running at http://iwise.herokuapp.com:
+
+POST API (Sign Up)
+
+.request
+include::{snippets}/signUpTest/http-request.adoc[]
+
+.response
+include::{snippets}/signUpTest/http-response.adoc[]
+
+
+POST API (Log In)
+
+.request
+include::{snippets}/logInTest/http-request.adoc[]
+
+.response
+include::{snippets}/logInTest/http-response.adoc[]
+
+
+GET API (Get All Users)
+
+.request
+include::{snippets}/getAllUserTest/http-request.adoc[]
+
+.response
+include::{snippets}/getAllUserTest/http-response.adoc[]
+
+
+GET API (Get A Single User)
+
+.request
+include::{snippets}/getASingleUserTest/http-request.adoc[]
+
+.response
+include::{snippets}/getASingleUserTest/http-response.adoc[]
+
+
+PUT API (Update A User)
+
+.request
+include::{snippets}/updateAUserTest/http-request.adoc[]
+
+.response
+include::{snippets}/updateAUserTest/http-response.adoc[]
+
+
+
+As you can see the format is very simple, and in fact you always get the same message.
