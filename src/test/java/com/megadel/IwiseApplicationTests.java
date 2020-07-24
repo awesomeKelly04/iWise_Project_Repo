@@ -1,5 +1,6 @@
 package com.megadel;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.megadel.client.exception.AppException;
 import com.megadel.models.Role;
@@ -25,14 +26,14 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Random;
 
-import static java.time.Instant.now;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -43,12 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 class IwiseApplicationTests {
 
     @Autowired
     private WebApplicationContext context;
-
-    private static SignUpRequest request;
 
     @Autowired
     private UserRepository userRepository;
@@ -62,21 +62,26 @@ class IwiseApplicationTests {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    LoginRequest loginRequest = new LoginRequest();
+    private static SignUpRequest request;
+    private LoginRequest loginRequest = new LoginRequest();
 
-    List<User> users;
-    Optional<User> user;
-    Role userRole;
+    private Optional<User> user;
+    private Role userRole;
 
     private MockMvc mockMvc;
 
     @BeforeAll
     static void beforeAll() {
         request = new SignUpRequest();
-        request.setName(generateRandomWords() +" "+ generateRandomWords());
-        request.setUsername(generateRandomWords());
-        request.setEmail(generateRandomWords() + "@outlook.com");
-        request.setPassword(generateRandomWords()+"$");
+//        request.setName(generateRandomWords() +" "+ generateRandomWords());
+//        request.setUsername(generateRandomWords());
+//        request.setEmail(generateRandomWords() + "@outlook.com");
+//        request.setPassword(generateRandomWords()+"$");
+
+        request.setName("Kelly Emmanuel");
+        request.setUsername("Kelly_E");
+        request.setEmail("emmanueloboh04@gmail.com");
+        request.setPassword("create$2020");
     }
 
     @BeforeEach
@@ -85,6 +90,34 @@ class IwiseApplicationTests {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+    }
+
+
+
+    private RestDocumentationResultHandler getDocument() {
+        return document("{methodName}",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()));
+    }
+
+    public static String generateRandomWords() {
+        String randomStrings;
+        Random random = new Random();
+        char[] word = new char[random.nextInt(6)+6]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+        for(int j = 0; j < word.length; j++)
+        {
+            word[j] = (char)('a' + random.nextInt(26));
+        }
+        randomStrings = new String(word);
+        return randomStrings;
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -103,15 +136,13 @@ class IwiseApplicationTests {
 
     @Test
     public void logInTest() throws Exception{
-        user = userRepository.findById((long) 1);
+        user = userRepository.findByUsername(request.getUsername());
         User tempUser = null;
-        try {
+        if (user.isPresent()) {
             tempUser = user.get();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         loginRequest.setUsernameOrEmail(tempUser.getEmail());
-        loginRequest.setPassword("Nigeria");
+        loginRequest.setPassword("create$2020");
         String userJson = asJsonString(loginRequest);
         System.out.println(userJson);
         mockMvc.perform(post("/api/auth/signin")
@@ -136,14 +167,12 @@ class IwiseApplicationTests {
 
     @Test
     public void getASingleUserTest() throws Exception{
-        user = userRepository.findById((long) 1);
+        user = userRepository.findById((long) 26);
         User tempUser = null;
-        try {
+        if (user.isPresent()) {
             tempUser = user.get();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        mockMvc.perform(get("/users/1")
+        mockMvc.perform(get("/users/26")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isOk())
@@ -153,15 +182,13 @@ class IwiseApplicationTests {
 
     @Test
     public void updateAUserTest() throws Exception{
-        user = userRepository.findById((long) 1);
+        user = userRepository.findById((long) 26);
         User tempUser = null;
-        try {
+        if (user.isPresent()) {
             tempUser = user.get();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         tempUser.setPhoneNumber("08125999453");
-        mockMvc.perform(put("/users/1")
+        mockMvc.perform(put("/users/26")
                 .content(asJsonString(tempUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andDo(print())
@@ -174,7 +201,7 @@ class IwiseApplicationTests {
         userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
         System.out.println(Collections.singleton(userRole));
-        mockMvc.perform(patch("/users/51")
+        mockMvc.perform(patch("/users/26")
                 .contentType("application/json-patch+hal+json")
                 .content(asJsonString(userRole))
                 .accept("application/json-patch+json")).andDo(print())
@@ -216,32 +243,5 @@ class IwiseApplicationTests {
                 .contentType("application/json-patch+json")).andDo(print())
                 .andExpect(status().is(202))
                 .andDo(getDocument());
-    }
-
-    private RestDocumentationResultHandler getDocument() {
-        return document("{methodName}",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()));
-    }
-
-    public static String generateRandomWords()
-    {
-        String randomStrings;
-        Random random = new Random();
-        char[] word = new char[random.nextInt(6)+6]; // words of length 3 through 10. (1 and 2 letter words are boring.)
-        for(int j = 0; j < word.length; j++)
-        {
-            word[j] = (char)('a' + random.nextInt(26));
-        }
-        randomStrings = new String(word);
-        return randomStrings;
-    }
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

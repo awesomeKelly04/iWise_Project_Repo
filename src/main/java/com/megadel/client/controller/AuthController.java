@@ -57,23 +57,33 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Optional<User> user = null;
+        Optional<User> user1 = null;
+
         User tempUser = new User();
         User tempUser1 = new User();
+
+        //Get user's details if email is used to login
         try {
             user = userRepository.findByEmail(loginRequest.getUsernameOrEmail());
         } catch (Exception e) {
             user = null;
         }
 
-        Optional<User> user1 = null;
+        //Get user's details if username is used to login
         try {
             user1 = userRepository.findByUsername(loginRequest.getUsernameOrEmail());
         } catch (Exception e) {
             user1 = null;
         }
 
-        tempUser.setIsActive(user.get().getIsActive());
-        tempUser1.setIsActive(user.get().getIsActive());
+        if (user.isPresent() && user != null) {
+            tempUser = user.get();
+        }
+
+        if (user1.isPresent() && user1 != null) {
+            tempUser1 = user1.get();
+        }
+
         if(!tempUser.getIsActive() || !tempUser1.getIsActive()) {
             return new ResponseEntity(new ApiResponse(false,
                     "Sorry! You haven't verified your account..."),
@@ -121,27 +131,24 @@ public class AuthController {
 
         verificationTokenService.createVerification(result.getEmail());
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+        URI location = getUri(result);
 
         return ResponseEntity.created(location).body(new ApiResponse(true,
                 "A verification email has been sent to: " + result.getEmail()));
     }
 
-    @PostMapping("/resend-token")
-    public ResponseEntity<?> resendToken( @Valid @RequestBody User userEmail) {
-        Optional<User> user = userRepository.findByEmail(userEmail.getEmail());
+    @RequestMapping(value="/resend-token", method= {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<?> resendToken( @RequestParam("email") String email) {
+        Optional<User> user = userRepository.findByEmail(email);
         User tempUser;
-        try {
+
+        if (user.isPresent()) {
             tempUser = user.get();
-        } catch (Exception e) {
+        } else {
             return new ResponseEntity(new ApiResponse(false,
                     "Sorry! No account found with this email..."),
                     HttpStatus.BAD_REQUEST);
         }
-
-        tempUser.setIsActive(user.get().getIsActive());
 
         if(tempUser.getIsActive()) {
             return new ResponseEntity(new ApiResponse(false,
@@ -149,18 +156,22 @@ public class AuthController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        verificationTokenService.createVerification(userEmail.getEmail());
+        verificationTokenService.createVerification(email);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(tempUser.getUsername()).toUri();
+        URI location = getUri(tempUser);
 
         return ResponseEntity.created(location).body(new ApiResponse(true,
                 "Token resent! Please check your mail..."));
     }
 
+    private URI getUri(User tempUser) {
+        return ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/users/{username}")
+                .buildAndExpand(tempUser.getUsername()).toUri();
+    }
+
     @RequestMapping(value="/verify-account", method= {RequestMethod.GET, RequestMethod.POST})
-    public String verifyAccount( @RequestParam("token")String token) {
+    public String verifyAccount( @RequestParam("token") String token) {
         return verificationTokenService.verifyAccount(token).getBody();
     }
 }
